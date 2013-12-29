@@ -115,12 +115,15 @@ extern NSString *RKStringDescribingHTTPMethods(RKHTTPMethodOptions method);
 - (BOOL)matchesURL:(NSURL *)URL relativeToBaseURL:(NSURL *)baseURL parameters:(NSDictionary **)parameters
 {
     if (self.pathTemplate == nil && baseURL == nil) return YES;
-    NSString *pathAndQueryString = RKPathAndQueryStringFromURLRelativeToURL(URL, baseURL);
+    NSURL *urlWithNoQueryString = [[NSURL alloc] initWithScheme:[URL scheme]
+                                             host:[URL host]
+                                             path:[URL path]];
+    NSString *pathString = RKPathAndQueryStringFromURLRelativeToURL(urlWithNoQueryString, baseURL);
     if (baseURL) {
         if (! RKURLIsRelativeToURL(URL, baseURL)) return NO;
-        return [self matchesPath:pathAndQueryString parameters:parameters];
+        return [self matchesPath:pathString parameters:parameters];
     } else if (parameters) {
-        return [self matchesPath:pathAndQueryString parameters:parameters];
+        return [self matchesPath:pathString parameters:parameters];
     }
     return YES;
 }

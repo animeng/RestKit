@@ -541,6 +541,7 @@
 		BE05BDD11782109F00F7C9C9 /* RKRouteTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BE05BDCF1782109F00F7C9C9 /* RKRouteTest.m */; };
 		BE05BDD2178214AA00F7C9C9 /* RKRouteTest.m in Sources */ = {isa = PBXBuildFile; fileRef = BE05BDCF1782109F00F7C9C9 /* RKRouteTest.m */; };
 		E2F2B89961FC462B981CEB7A /* libPods-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E457EFC3D502479D8B4FCF2A /* libPods-ios.a */; };
+		FCF5C60F186E0C4F007DA806 /* RKResponseDescriptorSenTest.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF5C60E186E0C4F007DA806 /* RKResponseDescriptorSenTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -893,6 +894,7 @@
 		E457EFC3D502479D8B4FCF2A /* libPods-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED192D1B86AB47D7927731B0 /* Pods-osx.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-osx.xcconfig"; path = "Pods/Pods-osx.xcconfig"; sourceTree = SOURCE_ROOT; };
 		F66056291744FF9000A87A45 /* and_cats.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = and_cats.json; sourceTree = "<group>"; };
+		FCF5C60E186E0C4F007DA806 /* RKResponseDescriptorSenTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKResponseDescriptorSenTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1341,6 +1343,7 @@
 				25DBDB2F183E6B190027A72F /* RKObjectResponseSerializerTest.m */,
 				25DBDB32183E6B520027A72F /* AFHTTPRequestOperationIntegrationTests.m */,
 				25EFFF5D184443DB00CE04CF /* RKParameterConstraintTests.m */,
+				FCF5C60E186E0C4F007DA806 /* RKResponseDescriptorSenTest.m */,
 			);
 			name = Network;
 			path = Logic/Network;
@@ -2295,6 +2298,7 @@
 				2506759F162DEA25003210B0 /* RKEntityMappingTest.m in Sources */,
 				2536D1FD167270F100DF9BB0 /* RKRouterTest.m in Sources */,
 				25B639CC16961EFA0065EB7B /* RKMappingTestTest.m in Sources */,
+				FCF5C60F186E0C4F007DA806 /* RKResponseDescriptorSenTest.m in Sources */,
 				25A73362169C8C230090A930 /* VersionedModel.xcdatamodeld in Sources */,
 				25A9827516A5FF4F0088A3CA /* RKConnectionDescriptionTest.m in Sources */,
 				2550DA2316B1FB62005A0CB8 /* RKPost.m in Sources */,
