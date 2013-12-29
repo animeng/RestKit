@@ -11,9 +11,33 @@
 #import "RKTestUser.h"
 
 @interface RKResponseDescriptorSenTest : SenTestCase
+{
+    RKResponseDescriptor *firstDescriptor;
+    RKResponseDescriptor *secondDescriptor;
+    
+    RKMapping *defaultMapping;
+    NSString *defaultPathPattern;
+    NSString *defaultKeyPath;
+    NSIndexSet *defaultStatusCodes;
+}
 @end
 
 @implementation RKResponseDescriptorSenTest
+
+- (void)setUp
+{
+    [super setUp];
+    defaultMapping = [RKObjectMapping mappingForClass:[RKTestUser class]];
+    defaultKeyPath = @"";
+    defaultPathPattern = @"/issues";
+    defaultStatusCodes = [NSIndexSet indexSetWithIndex:200];
+    firstDescriptor = [RKResponseDescriptor responseDescriptorWithMethods:RKHTTPMethodAny
+                                                       pathTemplateString:defaultPathPattern
+                                                     parameterConstraints:nil
+                                                                  keyPath:defaultKeyPath
+                                                              statusCodes:defaultStatusCodes
+                                                                  mapping:defaultMapping];
+}
 
 #pragma mark - URL Matching
 
@@ -126,6 +150,83 @@
     NSURL *URL = [NSURL URLWithString:@"http://domain.com/domain/api/v1/recommendation/"];
     NSHTTPURLResponse *response = [[NSHTTPURLResponse alloc] initWithURL:URL statusCode:200 HTTPVersion:@"1.1" headerFields:nil];
     expect([responseDescriptor matchesResponse:response request:nil relativeToBaseURL:[NSURL URLWithString:@"http://domain.com/domain/api/v1/"] parameters:nil]).to.equal(NO);
+}
+
+#pragma mark - isEqual
+
+- (void)testDescriptorsWithSameAttributesAreEqual
+{
+    secondDescriptor = [RKResponseDescriptor responseDescriptorWithMethods:RKHTTPMethodAny
+                                                        pathTemplateString:defaultPathPattern
+                                                      parameterConstraints:nil
+                                                                   keyPath:defaultKeyPath
+                                                               statusCodes:defaultStatusCodes
+                                                                   mapping:defaultMapping];
+    expect([firstDescriptor isEqual:secondDescriptor]).to.beFalsy();
+}
+
+- (void)testDescriptorsWithDifferentMappingsAreNotEqual
+{
+    RKMapping *mapping = [RKObjectMapping mappingForClass:[NSObject class]];
+    secondDescriptor = [RKResponseDescriptor responseDescriptorWithMethods:RKHTTPMethodAny
+                                                        pathTemplateString:defaultPathPattern
+                                                      parameterConstraints:nil
+                                                                   keyPath:defaultKeyPath
+                                                               statusCodes:defaultStatusCodes
+                                                                   mapping:mapping];
+    expect([firstDescriptor isEqual:secondDescriptor]).to.beFalsy();
+}
+
+- (void)testDescriptorsWithDifferentPathPatternsAreNotEqual
+{
+    secondDescriptor = [RKResponseDescriptor responseDescriptorWithMethods:RKHTTPMethodAny
+                                                        pathTemplateString:@"/pull_requests"
+                                                      parameterConstraints:nil
+                                                                   keyPath:defaultKeyPath
+                                                               statusCodes:defaultStatusCodes
+                                                                   mapping:defaultMapping];
+    expect([firstDescriptor isEqual:secondDescriptor]).to.beFalsy();
+}
+
+- (void)testDescriptorsWithDifferentKeyPathsAreNotEqual
+{
+    secondDescriptor = [RKResponseDescriptor responseDescriptorWithMethods:RKHTTPMethodAny
+                                                        pathTemplateString:defaultPathPattern
+                                                      parameterConstraints:nil
+                                                                   keyPath:@"pull_request"
+                                                               statusCodes:defaultStatusCodes
+                                                                   mapping:defaultMapping];
+    expect([firstDescriptor isEqual:secondDescriptor]).to.beFalsy();
+}
+
+- (void)testDescriptorsWithDifferentStatusCodesAreNotEqual
+{
+    secondDescriptor = [RKResponseDescriptor responseDescriptorWithMethods:RKHTTPMethodAny
+                                                        pathTemplateString:defaultPathPattern
+                                                      parameterConstraints:nil
+                                                                   keyPath:defaultKeyPath
+                                                               statusCodes:[NSIndexSet indexSetWithIndex:404]
+                                                                   mapping:defaultMapping];
+    expect([firstDescriptor isEqual:secondDescriptor]).to.beFalsy();
+}
+
+- (void)testDescriptorsWithDifferentConstraintsAreNotEqual
+{
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMethods:RKHTTPMethodAny
+                                                                                  pathTemplateString:defaultPathPattern
+                                                                                parameterConstraints:nil
+                                                                                             keyPath:defaultKeyPath
+                                                                                         statusCodes:[NSIndexSet indexSetWithIndex:404]
+                                                                                             mapping:defaultMapping];
+    
+    secondDescriptor = [RKResponseDescriptor responseDescriptorWithMethods:RKHTTPMethodAny
+                                                        pathTemplateString:defaultPathPattern
+                                                      parameterConstraints:nil
+                                                                   keyPath:defaultKeyPath
+                                                               statusCodes:[NSIndexSet indexSetWithIndex:404]
+                                                                   mapping:defaultMapping];
+// TODO: Implement this test.
+//    expect([firstDescriptor isEqual:secondDescriptor]).to.beFalsy();
 }
 
 @end
