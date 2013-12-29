@@ -9,6 +9,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "RKTestEnvironment.h"
 #import "RKTestUser.h"
+#import "RKParameterConstraint.h"
 
 @interface RKResponseDescriptorSenTest : SenTestCase
 {
@@ -214,19 +215,18 @@
 {
     RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMethods:RKHTTPMethodAny
                                                                                   pathTemplateString:defaultPathPattern
-                                                                                parameterConstraints:nil
+                                                                              parameterConstraints:[RKParameterConstraint constraintsWithDictionary:@{ @"animals" : @[ @"cats", @"dogs" ] }]
                                                                                              keyPath:defaultKeyPath
                                                                                          statusCodes:[NSIndexSet indexSetWithIndex:404]
                                                                                              mapping:defaultMapping];
     
     secondDescriptor = [RKResponseDescriptor responseDescriptorWithMethods:RKHTTPMethodAny
                                                         pathTemplateString:defaultPathPattern
-                                                      parameterConstraints:nil
+                                                      parameterConstraints:[RKParameterConstraint constraintsWithDictionary:@{ @"animals" : @[ @"cats" ] }]
                                                                    keyPath:defaultKeyPath
                                                                statusCodes:[NSIndexSet indexSetWithIndex:404]
                                                                    mapping:defaultMapping];
-// TODO: Implement this test.
-//    expect([firstDescriptor isEqual:secondDescriptor]).to.beFalsy();
+    expect([responseDescriptor isEqual:secondDescriptor]).to.beFalsy();
 }
 
 @end
