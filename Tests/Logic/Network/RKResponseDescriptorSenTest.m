@@ -60,6 +60,18 @@
     expect([responseDescriptor matchesURL:URL relativeToBaseURL:baseURL parameters:nil]).to.equal(YES);
 }
 
+- (void)testBaseURLIsNilAndPathPatternAndURLMatchReturnsNonEmptyParameters
+{
+    NSURL *baseURL = nil;
+    NSDictionary *parameters;
+    NSURL *URL = [NSURL URLWithString:@"http://restkit.org/monkeys/1234.json"];
+    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[RKTestUser class]];
+    RKResponseDescriptor *responseDescriptor = [RKResponseDescriptor responseDescriptorWithMethods:RKHTTPMethodAny pathTemplateString:@"/monkeys/{monkeyID}.json" parameterConstraints:nil keyPath:nil statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful) mapping:mapping];
+    BOOL matches = [responseDescriptor matchesURL:URL relativeToBaseURL:baseURL parameters:&parameters];
+    expect(matches).to.equal(YES);
+    expect(parameters).to.equal(@{ @"monkeyID" : @"1234" });
+}
+
 - (void)testBaseURLIsNilAndPathPatternAndURLAreNotMatch
 {
     NSURL *baseURL = nil;
